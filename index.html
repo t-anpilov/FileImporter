@@ -4,15 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>File uploading</title>
-    <link rel="stylesheet" href="style.css">
-    <script src="script.js"></script>
+    <link rel="stylesheet" href="style.css">    
 </head>
 <body>
-    <form id="upload_form" method="POST" action="http://193.243.158.230:4500/api/import"> 
+    <form id="upload_form" method="POST" action="http://193.243.158.230:4500/api/import">
+        <input id="file_upload" type="file" name="file" multiple> 
         <label for="file_upload" id="upload_container">
             <div id="upload_text">Перетащите сюда файл или нажмите чтобы выбрать</div>            
-        </label>
-        <input id="file_upload" type="file" name="file" multiple>    
+        </label>            
     </form>
+    <script src="script.js"></script>
 </body>
 </html>
