@@ -1,0 +1,1 @@
+const input = document.getElementById('upload_container')
