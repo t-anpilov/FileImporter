@@ -1,17 +1,11 @@
 #upload_container {
     display: flex;
     justify-content: center;
-    align-items: center;
-    width: 40%;
-    margin: 20px auto 0;
-    height: 100px;
-    outline: 2px dashed #5d5d5d;
-    outline-offset: -5px;
-    background-color: #c2edf3;
-    color: #5d5d5d;
+    align-items: center;    
     position: relative;
     z-index: 7;
 }
+
 #upload_text {
     width: 50%;
     margin: auto;
@@ -28,6 +22,22 @@
     z-index: -10;
 }
 
+.initial {
+    width: 40%;
+    margin: 20px auto 0;
+    height: 100px;
+    outline: 2px dashed #5d5d5d;
+    outline-offset: -5px;
+    background-color: #c2edf3;
+    color: #5d5d5d;
+}
+
 .in_focus {
-    box-shadow: 5px 5px 10px lightgray;    
+    box-shadow: 5px 5px 10px lightgrey;
+    background-color: #65cedb;     
+}
+
+.drag_over {
+    background-color: #fafafa;
+    outline-offset: -17px;
 }
