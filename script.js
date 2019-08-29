@@ -1,8 +1,12 @@
 const field = document.getElementById('upload_container');
 const input = document.getElementById('file_upload');
-const typeA = 'xls';
-const typeB = 'xlsx';
-const file_size = 240000;
+const text = document.getElementById('upload_text');
+const typeA = 'application/vnd.ms-excel';
+const typeB = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
+const file_size = 10000000;
+const initText = 'Перетащите сюда файл или нажмите чтобы выбрать';
+
+text.innerText = initText;
 
 input.addEventListener('focus', setFocus);
 input.addEventListener('blur', outFocus);
@@ -42,7 +46,7 @@ function removeDragClass(event) {
 
 function getDropFiles(event) {
     removeDragClass(event)
-    let files = e.originalEvent.dataTransfer.files;
+    let files = event.originalEvent.dataTransfer.files;
     sendFiles(files);
 }
 
@@ -53,11 +57,22 @@ function getFiles() {
 }
 
 function sendFiles(files) {
-    let Data = new FormData();
-    for (const key in files) {
-        let file = files[key];
-        if ((file.size <= file_size) && ((file.type == typeA) || (file.type == typeB))) {
-            Data.append('images[]', file);
-        }
-    }; 
+    if (files.length == 1) {        
+        //console.log(files)
+        let file = files[0]        
+            if ((file.size <= file_size) && ((file.type == typeA) || (file.type == typeB))) {                 
+                text.innerText = file.name;          
+            } else if (file.size > file_size) {
+                text.innerText = 'Допустимый размер файла ' +  (file_size/1000000) + 'Мб, выберите другой файл';
+            } else if ((file.type != typeA) || (file.type != typeB)) {
+                text.innerText = 'Недопустимый тип файла \'' + getExtension(file.name) + '\', выберите другой файл';
+            }
+    } else {
+        text.innerText = 'Необходимо выбрать один файл';
+    }
+}
+
+function getExtension(name) {                    //определение расширения файла
+    let index = name.indexOf('.') + 1;
+    return name.slice(index, name.length);
 }
