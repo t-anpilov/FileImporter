@@ -45,8 +45,8 @@ function removeDragClass(event) {
 }
 
 function getDropFiles(event) {
-    removeDragClass(event)
-    let files = event.originalEvent.dataTransfer.files;
+    field.classList.remove('drag_over')
+    let files = event.dataTransfer.files;
     sendFiles(files);
 }
 
@@ -58,10 +58,10 @@ function getFiles() {
 
 function sendFiles(files) {
     if (files.length == 1) {        
-        //console.log(files)
+        console.log(files)
         let file = files[0]        
             if ((file.size <= file_size) && ((file.type == typeA) || (file.type == typeB))) {                 
-                text.innerText = file.name;          
+                text.innerText = 'Отправлен файл - ' + file.name;          
             } else if (file.size > file_size) {
                 text.innerText = 'Допустимый размер файла ' +  (file_size/1000000) + 'Мб, выберите другой файл';
             } else if ((file.type != typeA) || (file.type != typeB)) {
