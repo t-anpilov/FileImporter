@@ -20,39 +20,41 @@ function outFocus() {
     field.classList.remove('in_focus');
 }
 
-field.addEventListener('drag', abortDefault)
-field.addEventListener('dragstart', abortDefault)
-field.addEventListener('dragend', abortDefault)
-field.addEventListener('dragover', addDragClass)
-field.addEventListener('dragenter', addDragClass)
-field.addEventListener('dragleave', removeDragClass)
-field.addEventListener('drop', abortDefault)
-field.addEventListener('drop', getDropFiles)
+document.body.onclick = () => { text.innerText = initText };
 
-input.addEventListener('change', getFiles)
+field.addEventListener('drag', abortDefault);
+field.addEventListener('dragstart', abortDefault);
+field.addEventListener('dragend', abortDefault);
+field.addEventListener('dragover', addDragClass);
+field.addEventListener('dragenter', addDragClass);
+field.addEventListener('dragleave', removeDragClass);
+field.addEventListener('drop', abortDefault);
+field.addEventListener('drop', getDropFiles);
+
+input.addEventListener('change', getFiles);
 
 function abortDefault(event) {
-    event.preventDefault()
+    event.preventDefault();
 }
 
 function addDragClass(event) {
     abortDefault(event);
-    field.classList.add('drag_over')
+    field.classList.add('drag_over');
 }
 
 function removeDragClass(event) {
     abortDefault(event);
-    field.classList.remove('drag_over')
+    field.classList.remove('drag_over');
 }
 
 function getDropFiles(event) {
-    field.classList.remove('drag_over')
+    field.classList.remove('drag_over');
     let files = event.dataTransfer.files;
     parseFiles(files);
 }
 
 function getFiles() {
-    outFocus()
+    outFocus();
     let files = this.files;
     parseFiles(files);    
 }
@@ -118,7 +120,7 @@ function showData(array) {
     let bodyArray = [];
     for (let i=0; i<array.length; i++) {
         for (let key in array[i]) {
-            let rowIndex = key.charAt(key.length-1)
+            let rowIndex = key.slice(1)
             if (rowIndex == 1) {                
                 let headCell = document.createElement('th');
                 headCell.innerText = array[i][key].w;
