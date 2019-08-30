@@ -58,9 +58,8 @@ function getFiles() {
 }
 
 function parseFiles(files) {
-    if (files.length == 1) {        
-        console.log(files[0])
-        let file = files[0]        
+    if (files.length == 1) {
+        let file = files[0];      
         if ((file.size <= file_size) && ((file.type == typeA) || (file.type == typeB))) {               
             convertFile(file);
             text.innerText = 'Отправлен файл - ' + file.name;            
@@ -93,8 +92,8 @@ function convertFile(exsel_file) {
                     file_data.push(cell);
                 }                
             } 
-        };
-        console.log(file_data);  
+        }; 
+        showData(file_data); 
         let xhr = new XMLHttpRequest();
         let body = {
             'resultArray' : file_data
@@ -104,12 +103,47 @@ function convertFile(exsel_file) {
         xhr.onreadystatechange = () => console.log(xhr.responseText + ' - ' + xhr.status);
         xhr.send(body);      
     };
-    reader.readAsArrayBuffer(exsel_file);
+    reader.readAsArrayBuffer(exsel_file); 
+    file_data.length = 0;  
 }
 
-
-/*function showData(array) {
+/*Вывод таблиц предусмотрен для документа с одним листом и 
+без пропусков между заполненными ячейками*/
+function showData(array) { 
     let table = document.createElement('table');
-    let tHead = document.createElement('tHead');
-    for (let i=0; i<)
-}*/
+    let tHead = document.createElement('thead');
+    let headRow = document.createElement('tr');
+    let tBody = document.createElement('tbody');
+    let headLength = 0;
+    let bodyArray = [];
+    for (let i=0; i<array.length; i++) {
+        for (let key in array[i]) {
+            let rowIndex = key.charAt(key.length-1)
+            if (rowIndex == 1) {                
+                let headCell = document.createElement('th');
+                headCell.innerText = array[i][key].w;
+                headRow.append(headCell);
+                headLength++;
+            }
+            else if ((rowIndex != 1) && !isNaN(+rowIndex)) {                
+                bodyArray.push(array[i][key].w)
+            }
+        }    
+    }
+    bodyArray.reverse();
+    let rowsCount = bodyArray.length / headLength;
+    for (let i=0; i<rowsCount; i++) {
+        let row = document.createElement('tr');
+        for (let j=0; j<headLength; j++) {        
+            let cell = document.createElement('td');
+            cell.innerText = bodyArray.pop();  
+            row.append(cell);      
+        }
+        tBody.append(row);
+    }    
+    tHead.append(headRow);
+    table.append(tHead);
+    table.append(tBody);
+    table.classList.add('data_table')
+    document.body.append(table);
+}

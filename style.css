@@ -39,5 +39,15 @@
 
 .drag_over {
     background-color: #fafafa;
-    outline-offset: -17px;
+    outline-offset: -12px;
+}
+
+.data_table {
+    border: 1px solid lightgrey;
+    margin: 20px auto 0px;
+}
+
+.data_table td, .data_table th {
+    border: 1px solid lightgrey;
+    padding: 5px;
 }
