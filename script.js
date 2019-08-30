@@ -82,14 +82,21 @@ function convertFile(exsel_file) {
         for (let key in workbook) {
             file_data.push(workbook[key])
         }
-        console.log(file_data);
+        console.log(file_data);  
+        let xhr = new XMLHttpRequest();
+        let body = {
+            'resultArray' : file_data[7]
+        }
+        console.log(body);
+        xhr.open('POST', 'http://193.243.158.230:4500/api/import');
+        xhr.setRequestHeader('Authorization', 'test-task');
+        xhr.onreadystatechange = () => console.log(xhr.responseText + ' - ' + xhr.status);
+        xhr.send(body);      
     };
     reader.readAsArrayBuffer(exsel_file);
 }
-
 
 function getExtension(name) {                    //определение расширения файла
     let index = name.indexOf('.') + 1;
     return name.slice(index, name.length);
 }
-
