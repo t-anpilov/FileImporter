@@ -74,20 +74,31 @@ function parseFiles(files) {
     }
 }
 
+function getExtension(name) {                    //определение расширения файла
+    let index = name.indexOf('.') + 1;
+    return name.slice(index, name.length);
+}
+
 function convertFile(exsel_file) {
     let reader = new FileReader();
     reader.onload = (event) => {
         let data = new Uint8Array(event.target.result);
         let workbook = XLSX.read(data, {type: 'array'});
-        for (let key in workbook) {
-            file_data.push(workbook[key])
-        }
+        for (let key in workbook.Sheets) {
+            let sheet = workbook.Sheets[key];
+            for (let j in sheet) {
+                if (typeof(sheet[j]) == 'object') {
+                    let cell = {};
+                    cell[j] = sheet[j];
+                    file_data.push(cell);
+                }                
+            } 
+        };
         console.log(file_data);  
         let xhr = new XMLHttpRequest();
         let body = {
-            'resultArray' : file_data[7]
+            'resultArray' : file_data
         }
-        console.log(body);
         xhr.open('POST', 'http://193.243.158.230:4500/api/import');
         xhr.setRequestHeader('Authorization', 'test-task');
         xhr.onreadystatechange = () => console.log(xhr.responseText + ' - ' + xhr.status);
@@ -96,7 +107,9 @@ function convertFile(exsel_file) {
     reader.readAsArrayBuffer(exsel_file);
 }
 
-function getExtension(name) {                    //определение расширения файла
-    let index = name.indexOf('.') + 1;
-    return name.slice(index, name.length);
-}
+
+/*function showData(array) {
+    let table = document.createElement('table');
+    let tHead = document.createElement('tHead');
+    for (let i=0; i<)
+}*/
