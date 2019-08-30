@@ -96,17 +96,21 @@ function convertFile(exsel_file) {
             } 
         }; 
         showData(file_data); 
-        let xhr = new XMLHttpRequest();
+        sendFile(file_data);      
+    };
+    reader.readAsArrayBuffer(exsel_file); 
+    file_data.length = 0;  
+}
+
+function sendFile(obj) {
+    let xhr = new XMLHttpRequest();
         let body = {
-            'resultArray' : file_data
+            'resultArray' : obj
         }
         xhr.open('POST', 'http://193.243.158.230:4500/api/import');
         xhr.setRequestHeader('Authorization', 'test-task');
         xhr.onreadystatechange = () => console.log(xhr.responseText + ' - ' + xhr.status);
-        xhr.send(body);      
-    };
-    reader.readAsArrayBuffer(exsel_file); 
-    file_data.length = 0;  
+        xhr.send(body);
 }
 
 /*Вывод таблиц предусмотрен для документа с одним листом и 
